@@ -70,7 +70,7 @@ class AccessToken extends Command
         // 记录刷新refresh token的请求日志
         if ($responseData['message'] != 'success' || $responseData['data']['error_code']) {
             // 记录生成 client_token 失败日志
-            Log::error("\t生成client_token失败，错误码：" . $responseData['data']['error_code'] . '，错误信息：' . $responseData['data']['description'] . PHP_EOL);
+            Log::error("生成client_token失败，错误码：" . $responseData['data']['error_code'] . '，错误信息：' . $responseData['data']['description'] . PHP_EOL);
             echo outputResult([
                 'code' => 2,
                 'msg' => '生成client_token失败，' . $responseData['data']['description'],
@@ -82,7 +82,7 @@ class AccessToken extends Command
         // 增加当前时间，用于后期判断access token是否该刷新的节点
         $responseData['data']['time'] = time();
         Cache::set(KeysUtil::memAccessTokenInfo(), json_encode($responseData['data']), $responseData['data']['expires_in'] - 600); // 重设缓存
-        Log::info("\t生成client_token成功，新的access_token：" . $responseData['data']['access_token'] . PHP_EOL);
+        Log::info("生成client_token成功，新的access_token：" . $responseData['data']['access_token'] . PHP_EOL);
         echo outputResult([
             'code' => 0,
             'msg' => '生成client_token成功',
