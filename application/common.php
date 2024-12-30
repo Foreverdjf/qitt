@@ -114,20 +114,12 @@ if (!function_exists('curl_request')) {
         curl_setopt($curl, CURLOPT_CONNECTTIMEOUT, 30);
         curl_setopt($curl, CURLOPT_TIMEOUT, 120);
         curl_setopt($curl, CURLOPT_HEADER, 0);
-
         curl_setopt($curl, CURLOPT_HTTPHEADER, $headers);
         $response = curl_exec($curl);
-
-        // 记录请求日志
-        $curl_info = curl_getinfo($curl);
-        think\Http::curlLog($curl_info, $response, $params);
-
         curl_close($curl);
-
         if ($json_decode) {
             return json_decode($response, true);
         }
-
         return $response;
     }
 }
