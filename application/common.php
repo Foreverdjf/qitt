@@ -266,8 +266,6 @@ if(!function_exists('outputResult')) {
         if ($outType == 'json') {
             // $jsonRes = json_encode($res);
             $jsonRes = json_encode($res, JSON_UNESCAPED_UNICODE);
-            header('Content-Type:application/json; charset=utf-8');
-            header('Content-Length:' . strlen($jsonRes));
             return $jsonRes;
         } else if ($outType == 'jsonp') {
             // $jsonRes = json_encode($res);
