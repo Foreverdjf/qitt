@@ -77,7 +77,7 @@ class GetLocalLifeList extends Command
             ]).PHP_EOL;
             return false;
         }
-        $pageInfo = $lifeClueResponseData['data']['page'];
+        $pageInfo = $lifeClueResponseData['data']['page']??[];
         if (!$pageInfo['total']) {
             Log::info("获取线索查询总数为空，退出执行" . PHP_EOL);
             echo outputResult([
