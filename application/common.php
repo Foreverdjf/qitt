@@ -264,11 +264,9 @@ if(!function_exists('outputResult')) {
             $res['data'] = $data;
         }
         if ($outType == 'json') {
-            // $jsonRes = json_encode($res);
             $jsonRes = json_encode($res, JSON_UNESCAPED_UNICODE);
             return $jsonRes;
         } else if ($outType == 'jsonp') {
-            // $jsonRes = json_encode($res);
             $jsonRes = json_encode($res, JSON_UNESCAPED_UNICODE);
             return $jsonRes;
         }
