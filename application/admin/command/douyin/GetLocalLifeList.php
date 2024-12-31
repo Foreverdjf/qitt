@@ -25,7 +25,7 @@ class GetLocalLifeList extends Command
     protected function configure()
     {
         $this->init();
-        $this->setName('GetLocalLifeList')
+        $this->setName('douyin:GetLocalLifeList')
             ->setDescription('获取token');
     }
 
@@ -58,7 +58,6 @@ class GetLocalLifeList extends Command
         // 通过第一页数据获取总页数
         $requestUrl = 'https://open.douyin.com/goodlife/v1/open_api/crm/clue/query/';
         $pageSize = 100;
-        // $startTime = date('Y-m-d H:i:s', strtotime('-30 day'));
         $startTime = date('Y-m-d H:i:s', time() - 3600);
         $getData = array(
             'account_id' => $this->accountId,
