@@ -74,7 +74,7 @@ class App
      * @return Response
      * @throws Exception
      */
-    public static function run(Request $request = null)
+    public static function run(?Request $request = null)
     {
         $request = is_null($request) ? Request::instance() : $request;
 
