@@ -26,7 +26,7 @@ class GetLocalLifeList extends Command
     {
         $this->init();
         $this->setName('douyin:GetLocalLifeList')
-            ->setDescription('获取token');
+            ->setDescription('线索查询结果推送CRM');
     }
 
     protected function execute(Input $input, Output $output)
