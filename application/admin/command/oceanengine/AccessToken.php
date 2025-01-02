@@ -44,34 +44,35 @@ class AccessToken extends Command
     {
         $a_stime=microtime(true);
         $refreshToken = Cache::get(KeysUtil::oceanengineRefreshToken());
-        if ($refreshToken) {
-            $accessTokenInfoJson = Cache::get(KeysUtil::oceanengineAccessTokenInfo());
-            $accessTokenInfo = json_decode($accessTokenInfoJson, true);
-            $accessToken = $accessTokenInfo['access_token'];
-            $IntervalTime = time() - $accessTokenInfo['time']; // 设置access token到现在的间隔时间
-            $timeout = intval($accessTokenInfo['expires_in']) - $IntervalTime; // access token有效期剩余时间
-            if ($accessTokenInfo['expires_in'] < 1 || $timeout < 7200) { // 有效期剩余时间大于2小时，则不需要刷新access token
-                $timeFlag = true;
-            } else {
-                $timeFlag = false;
-            }
-            if ($accessToken && $refreshToken == $accessTokenInfo['refresh_token'] && !$timeFlag) {
-                Log::info('access token有效中，请勿频繁操作');
-                echo outputResult([
-                        'code' => 0,
-                        'msg' => 'access token有效中，请勿频繁操作',
-                        'data' => [
-                            'access_token' => $accessToken,
-                        ],
-                    ]).PHP_EOL;
-                return false;
-            }
+        if(empty($refreshToken)){
+            Log::error('refresh_token不存在，重新授权');
+            echo outputResult([
+                    'code' => 1,
+                    'msg' => 'refresh_token不存在，重新授权',
+                ]).PHP_EOL;
+            return false;
         }
-        Log::error('refresh_token不存在，重新授权');
-        echo outputResult([
-                'code' => 1,
-                'msg' => 'refresh_token不存在，重新授权',
-            ]).PHP_EOL;
+        $accessTokenInfoJson = Cache::get(KeysUtil::oceanengineAccessTokenInfo());
+        $accessTokenInfo = json_decode($accessTokenInfoJson, true);
+        $accessToken = $accessTokenInfo['access_token'];
+        $IntervalTime = time() - $accessTokenInfo['time']; // 设置access token到现在的间隔时间
+        $timeout = intval($accessTokenInfo['expires_in']) - $IntervalTime; // access token有效期剩余时间
+        if ($accessTokenInfo['expires_in'] < 1 || $timeout < 7200) { // 有效期剩余时间大于2小时，则不需要刷新access token
+            $timeFlag = true;
+        } else {
+            $timeFlag = false;
+        }
+        if ($accessToken && $refreshToken == $accessTokenInfo['refresh_token'] && !$timeFlag) {
+            Log::info('access token有效中，请勿频繁操作');
+            echo outputResult([
+                    'code' => 0,
+                    'msg' => 'access token有效中，请勿频繁操作',
+                    'data' => [
+                        'access_token' => $accessToken,
+                    ],
+                ]).PHP_EOL;
+            return false;
+        }
         $requestUrl = 'https://ad.oceanengine.com/open_api/oauth2/refresh_token/';
         $postData = array(
             'app_id' => $this->appid,
